@@ -7,7 +7,7 @@ const HeroSection = memo(() => (
   >
     <div className='max-w-384 mx-auto px-4 sm:px-8 lg:px-12'>
       <div className='max-w-3xl space-y-4'>
-        <p className='text-orange-500 text-sm sm:text-base font-semibold tracking-wide uppercase'>
+        <p className='text-orange-500 text-sm sm:text-base mt-5 font-semibold tracking-wide uppercase'>
           Legal
         </p>
         <h1
