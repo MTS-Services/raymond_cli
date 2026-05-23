@@ -160,10 +160,10 @@ ResultCard.displayName = 'ResultCard';
 // Static data
 // ---------------------------------------------------------------------------
 const INITIAL_MORTGAGE = {
-  purchaseAmount: 800000,
-  downPayment: 160000,
-  interestRate: 6.5,
-  loanTerm: 30,
+  purchaseAmount: '',
+  downPayment: '',
+  interestRate: '',
+  loanTerm: '',
 };
 
 // ---------------------------------------------------------------------------
@@ -175,7 +175,7 @@ const MortgageCalcSection = memo(() => {
     (field) => (e) =>
       setForm((prev) => ({
         ...prev,
-        [field]: parseFloat(e.target.value) || 0,
+        [field]: e.target.value,
       })),
     [],
   );
@@ -207,7 +207,7 @@ const MortgageCalcSection = memo(() => {
 
   const handleFieldChange = useCallback(
     (field) => (e) => {
-      const nextValue = parseFloat(e.target.value) || 0;
+      const nextValue = e.target.value;
       setForm((prev) => {
         const nextForm = { ...prev, [field]: nextValue };
         persistDraft(nextForm);
@@ -217,21 +217,18 @@ const MortgageCalcSection = memo(() => {
     [persistDraft],
   );
 
-  const initialDraftSaved = useCallback(() => {
-    persistDraft(INITIAL_MORTGAGE);
-  }, [persistDraft]);
-
   const handleApply = useCallback(() => {
     persistDraft(form);
     setActiveCalculator(CALCULATOR_TYPES.MORTGAGE);
   }, [form, persistDraft]);
 
-  React.useEffect(() => {
-    initialDraftSaved();
-  }, [initialDraftSaved]);
-  const loanAmount = Math.max(0, form.purchaseAmount - form.downPayment);
-  const pi = calcPMT(loanAmount, form.interestRate, form.loanTerm);
-  const tax = (form.purchaseAmount * 0.01) / 12;
+  const purchaseAmount = Number(form.purchaseAmount) || 0;
+  const downPayment = Number(form.downPayment) || 0;
+  const interestRate = Number(form.interestRate) || 0;
+  const loanTerm = Number(form.loanTerm) || 0;
+  const loanAmount = Math.max(0, purchaseAmount - downPayment);
+  const pi = calcPMT(loanAmount, interestRate, loanTerm);
+  const tax = (purchaseAmount * 0.01) / 12;
   const insurance = 150;
   const total = pi + tax + insurance;
 
@@ -255,7 +252,7 @@ const MortgageCalcSection = memo(() => {
                 type='number'
                 min='0'
                 step='1000'
-                value={form.purchaseAmount || ''}
+                value={form.purchaseAmount}
                 onChange={handleFieldChange('purchaseAmount')}
                 placeholder='$800,000'
                 className={calcInputClass}
@@ -267,7 +264,7 @@ const MortgageCalcSection = memo(() => {
                 type='number'
                 min='0'
                 step='1000'
-                value={form.downPayment || ''}
+                value={form.downPayment}
                 onChange={handleFieldChange('downPayment')}
                 placeholder='$160,000'
                 className={calcInputClass}
@@ -280,7 +277,7 @@ const MortgageCalcSection = memo(() => {
                 min='0'
                 max='30'
                 step='0.1'
-                value={form.interestRate || ''}
+                value={form.interestRate}
                 onChange={handleFieldChange('interestRate')}
                 placeholder='6.5'
                 className={calcInputClass}
@@ -293,7 +290,7 @@ const MortgageCalcSection = memo(() => {
                 min='1'
                 max='30'
                 step='1'
-                value={form.loanTerm || ''}
+                value={form.loanTerm}
                 onChange={handleFieldChange('loanTerm')}
                 placeholder='e.g. 30'
                 className={calcInputClass}

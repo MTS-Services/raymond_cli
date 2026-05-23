@@ -251,7 +251,9 @@ const Settings = () => {
                 type='email'
                 value={form.email}
                 placeholder='Enter your email address'
-                onChange={onChange('email')}
+                readOnly
+                aria-readonly='true'
+                className='bg-input-bg rounded-lg px-4 py-3 text-sm font-medium text-ink-admin placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-shadow w-full cursor-not-allowed'
               />
             </Field>
           </div>

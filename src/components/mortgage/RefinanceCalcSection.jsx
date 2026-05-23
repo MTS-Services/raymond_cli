@@ -13,11 +13,11 @@ import {
 } from './mortgageApplicationStorage';
 
 const INITIAL_REFINANCE = {
-  loanAmount: 800000,
-  homeValue: 1000000,
-  fico: 740,
-  interestRate: 6.5,
-  loanTerm: 30,
+  loanAmount: '',
+  homeValue: '',
+  fico: '',
+  interestRate: '',
+  loanTerm: '',
 };
 
 const RefinanceCalcSection = memo(() => {
@@ -52,7 +52,7 @@ const RefinanceCalcSection = memo(() => {
 
   const handleFieldChange = useCallback(
     (field) => (e) => {
-      const nextValue = parseFloat(e.target.value) || 0;
+      const nextValue = e.target.value;
       setForm((prev) => {
         const nextForm = { ...prev, [field]: nextValue };
         persistDraft(nextForm);
@@ -62,17 +62,17 @@ const RefinanceCalcSection = memo(() => {
     [persistDraft],
   );
 
-  React.useEffect(() => {
-    persistDraft(INITIAL_REFINANCE);
-  }, [persistDraft]);
-
   const handleApply = useCallback(() => {
     persistDraft(form);
     setActiveCalculator(CALCULATOR_TYPES.REFINANCE);
   }, [form, persistDraft]);
 
-  const pi = calcPMT(form.loanAmount, form.interestRate, form.loanTerm);
-  const tax = (form.homeValue * 0.01) / 12;
+  const loanAmount = Number(form.loanAmount) || 0;
+  const homeValue = Number(form.homeValue) || 0;
+  const interestRate = Number(form.interestRate) || 0;
+  const loanTerm = Number(form.loanTerm) || 0;
+  const pi = calcPMT(loanAmount, interestRate, loanTerm);
+  const tax = (homeValue * 0.01) / 12;
   const insurance = 150;
   const hoa = 0;
   const total = pi + tax + insurance + hoa;
@@ -97,7 +97,7 @@ const RefinanceCalcSection = memo(() => {
                 type='number'
                 min='0'
                 step='1000'
-                value={form.loanAmount || ''}
+                value={form.loanAmount}
                 onChange={handleFieldChange('loanAmount')}
                 placeholder='$800,000'
                 className={calcInputClass}
@@ -109,7 +109,7 @@ const RefinanceCalcSection = memo(() => {
                 type='number'
                 min='0'
                 step='1000'
-                value={form.homeValue || ''}
+                value={form.homeValue}
                 onChange={handleFieldChange('homeValue')}
                 placeholder='$1,000,000'
                 className={calcInputClass}
@@ -122,7 +122,7 @@ const RefinanceCalcSection = memo(() => {
                 min='300'
                 max='850'
                 step='1'
-                value={form.fico || ''}
+                value={form.fico}
                 onChange={handleFieldChange('fico')}
                 placeholder='740'
                 className={calcInputClass}
@@ -135,7 +135,7 @@ const RefinanceCalcSection = memo(() => {
                 min='0'
                 max='30'
                 step='0.1'
-                value={form.interestRate || ''}
+                value={form.interestRate}
                 onChange={handleFieldChange('interestRate')}
                 placeholder='6.5'
                 className={calcInputClass}
@@ -148,7 +148,7 @@ const RefinanceCalcSection = memo(() => {
                 min='1'
                 max='30'
                 step='1'
-                value={form.loanTerm || ''}
+                value={form.loanTerm}
                 onChange={handleFieldChange('loanTerm')}
                 placeholder='e.g. 30'
                 className={calcInputClass}

@@ -1027,10 +1027,7 @@ const MortgageApplications = () => {
   );
 
   const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
-  const paged = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
+  const paged = filtered;
 
   const handleStatusFilter = useCallback((val) => {
     setStatusFilter(val);
@@ -1076,9 +1073,11 @@ const MortgageApplications = () => {
     [totalPages],
   );
 
-  const startItem =
-    filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
-  const endItem = Math.min(currentPage * PAGE_SIZE, filtered.length);
+  const startItem = paged.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+  const endItem =
+    paged.length === 0
+      ? 0
+      : Math.min((currentPage - 1) * PAGE_SIZE + paged.length, totalItems);
 
   return (
     <div className='space-y-8'>
@@ -1303,7 +1302,7 @@ const MortgageApplications = () => {
           totalPages={totalPages}
           startItem={startItem}
           endItem={endItem}
-          total={filtered.length}
+          total={totalItems}
           onPrev={handlePrev}
           onNext={handleNext}
         />
