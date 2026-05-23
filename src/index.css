@@ -1,0 +1,192 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@theme {
+  --font-poppins: 'Poppins', sans-serif;
+
+  --color-primary-50: #f7f7fd;
+  --color-primary-100: #f0effb;
+  --color-primary-200: #e0def7;
+  --color-primary-300: #c4b5fd;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #7065f0;
+  --color-primary-600: #6366f1;
+  --color-primary-700: #4f46e5;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+  --color-primary-950: #1e1b4b;
+  --color-primary: var(--color-primary-500);
+
+  --color-brand-black: #000929;
+  --color-blue-tint: #e9ebf3;
+  --color-secondary: #f97316;
+  --color-navy: #1e3a8a;
+  --color-navy-hover: #1e40af;
+  --color-site-bg: #f1f5f9;
+
+  /* Additional fonts */
+  --font-playfair: 'Playfair Display', serif;
+  --font-inter: 'Inter', sans-serif;
+
+  /* Ink / dark text scale */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1a1a1a;
+  --color-ink-navy: #080d17;
+  --color-ink-nav: #151515;
+  --color-ink-caption: #888888;
+  --color-near-black: #1c1c1c;
+  --color-highlight: #202020;
+
+  /* Body & muted text */
+  --color-text-dim: #2a313a;
+  --color-text-light: #eaeaea;
+  --color-subtle: #4a5565;
+  --color-muted-slate: #45556c;
+  --color-dim: #364153;
+  --color-label: #374151;
+  --color-deep-navy: #1a1a6c;
+  --color-muted-input: #c8d3dc;
+
+  /* Brand accents */
+  --color-purple: #7c3aed;
+  --color-violet-icon: #7135d8;
+  --color-violet-tint: #f2ebfd;
+  --color-indigo-dark: #2a2a8e;
+  --color-indigo-tint: #eef2ff;
+  --color-cta-orange: #ff6b35;
+  --color-orange-warm: #e36914;
+  --color-orange-peach: #fba163;
+
+  /* UI icon tones */
+  --color-icon-tint: #e8ebfd;
+  --color-icon-muted: #94a3b8;
+  --color-icon-mid: #64748b;
+  --color-dot-inactive: #bcbcbc;
+
+  /* Borders */
+  --color-border-soft: #e2e8f0;
+  --color-border-light: #cbd5e1;
+
+  /* Surfaces */
+  --color-surface-page: #fbfdff;
+  --color-surface-warm: #f9fafb;
+  --color-surface-cool: #f8fafc;
+  --color-surface-highlight: #f6f8ff;
+  --color-surface-input: #f3f3f5;
+  --color-surface-dark: #0f172a;
+
+  /* Chat bubbles */
+  --color-bubble-received: #f0f2f5;
+  --color-bubble-sent: #e4e7ec;
+
+  /* Dark panels */
+  --color-panel-dark: #1e293b;
+  --color-panel-border: #2d3f55;
+  --color-panel-navy: #253551;
+  --color-dark-navy: #001f3d;
+
+  /* Renovation & additional surfaces */
+  --color-surface-off: #f8f8f8;
+  --color-surface-cream: #fafaf7;
+  --color-surface-white: #fefefe;
+  --color-input-bg: #f5f7f8;
+
+  /* Renovation muted & mid text */
+  --color-text-mid: #666666;
+  --color-text-cool: #cad5e2;
+  --color-ink-darkest: #101828;
+  --color-ink-admin: #0f1923;
+  --color-ink-deep-alt: #373737;
+
+  /* Links & brand accents */
+  --color-link-blue: #155dfc;
+  --color-orange-vivid: #ff944a;
+
+  /* Dividers & light borders */
+  --color-divider: #e5e5e5;
+  --color-border-pale: #e6e6e6;
+  --color-border-very-light: #eeeeee;
+
+  /* Placeholder shades */
+  --color-placeholder-neutral: #aaaaaa;
+  --color-placeholder-cool: #90a1b9;
+
+  /* Dark card backgrounds */
+  --color-navy-card: #1c2235;
+
+  /* Purple variants */
+  --color-purple-deep: #652e8f;
+  --color-purple-hover: #7a38ab;
+}
+
+:root {
+  --color-primary: #7065f0;
+  --color-brand-black: #000929;
+  --color-blue-tint: #e9ebf3;
+  --color-secondary: #f97316;
+  --color-navy: #1e3a8a;
+  --color-navy-hover: #1e40af;
+  --color-violet: #7c3aed;
+  --color-bg: #f1f5f9;
+  --color-text-primary: #0f172a;
+  --color-text-dark: #020617;
+  --color-text-secondary: #1e293b;
+  --color-text-muted: #64748b;
+  --color-text-grey: #6b7280;
+}
+
+@keyframes nav-arrow {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@layer utility {
+  .animate-nav-arrow {
+    animation: nav-arrow 1.2s ease-in-out infinite;
+  }
+}
+
+/* Thin, light scrollbar used by sticky filter sidebars */
+.scrollbar-light {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb transparent;
+}
+.scrollbar-light::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-light::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-light::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+}
+.scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background-color: #d1d5db;
+}
