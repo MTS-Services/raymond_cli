@@ -28,15 +28,26 @@ const INITIAL_FORM = {
 };
 
 const PROPERTY_TYPE_OPTIONS = [
-  'DETACHED',
-  'SEMI_DETACHED',
-  'TERRACE',
-  'FLAT',
-  'BUNGALOW',
-  'OFFICE_SPACE',
-  'LAND',
-  'WAREHOUSE',
+  { value: 'SINGLE_FAMILY_HOME', label: 'Single Family Home' },
+  { value: 'TOWNHOMES', label: 'Townhomes' },
+  { value: 'LAND', label: 'Land' },
+  { value: 'COMMERCIAL', label: 'Commercial' },
 ];
+
+const PROPERTY_TYPE_ALIASES = {
+  DETACHED: 'SINGLE_FAMILY_HOME',
+  SEMI_DETACHED: 'SINGLE_FAMILY_HOME',
+  TERRACE: 'TOWNHOMES',
+  FLAT: 'TOWNHOMES',
+  BUNGALOW: 'SINGLE_FAMILY_HOME',
+  OFFICE_SPACE: 'COMMERCIAL',
+  WAREHOUSE: 'COMMERCIAL',
+};
+
+function normalizePropertyType(value) {
+  if (!value) return '';
+  return PROPERTY_TYPE_ALIASES[value] || value;
+}
 
 const ApplicationFormSection = memo(() => {
   const [form, setForm] = useState(INITIAL_FORM);
@@ -121,7 +132,7 @@ const ApplicationFormSection = memo(() => {
           desiredLoanAmount: form.desiredLoanAmount
             ? Number(form.desiredLoanAmount)
             : calculatorDesiredLoanAmount,
-          propertyType: form.propertyType,
+            propertyType: normalizePropertyType(form.propertyType),
           message: form.notes,
             ...draft.activeDraft.calculatorData,
             selectedCalculatorType: draft.activeDraft.calculatorType,
@@ -277,8 +288,8 @@ const ApplicationFormSection = memo(() => {
                   Select property type
                 </option>
                 {PROPERTY_TYPE_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt} className='text-black' style={{ color: '#111827' }}>
-                    {opt.replace(/_/g, ' ')}
+                  <option key={opt.value} value={opt.value} className='text-black' style={{ color: '#111827' }}>
+                    {opt.label}
                   </option>
                 ))}
               </select>
