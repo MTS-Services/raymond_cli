@@ -88,7 +88,7 @@ const TabButton = ({ active, onClick, children }) => (
   </button>
 );
 
-const WholesaleCard = ({ item, onDelete }) => (
+const WholesaleCard = ({ item, onDelete, tab }) => (
   <article className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow">
     <div className="relative h-44 overflow-hidden">
       {item.image ? (
@@ -148,6 +148,7 @@ const WholesaleCard = ({ item, onDelete }) => (
         <Link
           to={`/admin/listing-property/edit/${item.id}`}
           state={{
+            listTab: tab,
             property: {
               title: item.name,
               type: item.propertyType || "",
@@ -188,7 +189,7 @@ const WholesaleCard = ({ item, onDelete }) => (
   </article>
 );
 
-const RegularCard = ({ item, onDelete }) => (
+const RegularCard = ({ item, onDelete, tab }) => (
   <article className="bg-white border-[1.5px] border-primary-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col">
     <div className="h-52 overflow-hidden shrink-0">
       {item.image ? (
@@ -254,6 +255,7 @@ const RegularCard = ({ item, onDelete }) => (
         <Link
           to={`/admin/listing-property/edit/${item.id}`}
           state={{
+            listTab: tab,
             property: {
               id: item.id,
               title: item.name,
@@ -431,9 +433,15 @@ const ListingProperty = () => {
                 key={item.id}
                 item={item}
                 onDelete={handleDelete}
+                tab={tab}
               />
             ) : (
-              <RegularCard key={item.id} item={item} onDelete={handleDelete} />
+              <RegularCard
+                key={item.id}
+                item={item}
+                onDelete={handleDelete}
+                tab={tab}
+              />
             ),
           )
         )}

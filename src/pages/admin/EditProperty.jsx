@@ -193,6 +193,7 @@ const EditProperty = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id: propertyId } = useParams();
+  const returnTab = location.state?.listTab || location.state?.tab || null;
   const [form, setForm] = useState({ ...INITIAL });
   const [gallery, setGallery] = useState([]);
   const [videoGallery, setVideoGallery] = useState([]);
@@ -338,7 +339,11 @@ const EditProperty = () => {
       return;
     }
     toast.success("Property saved successfully!");
-    navigate(ROUTES.ADMIN_LISTING_PROPERTY);
+    navigate(
+      returnTab
+        ? `${ROUTES.ADMIN_LISTING_PROPERTY}?tab=${returnTab}`
+        : ROUTES.ADMIN_LISTING_PROPERTY,
+    );
   };
 
   const handlePhotoUpload = (files) => {
@@ -663,7 +668,13 @@ const EditProperty = () => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
             <button
               type="button"
-              onClick={() => navigate(ROUTES.ADMIN_LISTING_PROPERTY)}
+              onClick={() =>
+                navigate(
+                  returnTab
+                    ? `${ROUTES.ADMIN_LISTING_PROPERTY}?tab=${returnTab}`
+                    : ROUTES.ADMIN_LISTING_PROPERTY,
+                )
+              }
               className="bg-navy text-white text-sm sm:text-base font-semibold px-6 py-2.5 rounded-full hover:bg-navy-hover transition-colors cursor-pointer"
             >
               Cancel

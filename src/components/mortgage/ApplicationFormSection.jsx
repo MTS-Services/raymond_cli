@@ -74,6 +74,12 @@ const ApplicationFormSection = memo(() => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   }, []);
 
+  const isNumericValue = useCallback((value) => {
+    const text = String(value).trim();
+    if (!text) return false;
+    return /^\d+(\.\d+)?$/.test(text.replace(/,/g, ''));
+  }, []);
+
   const validate = useCallback(() => {
     const errs = {};
     if (!form.fullName.trim()) errs.fullName = 'Full name is required.';
@@ -83,10 +89,13 @@ const ApplicationFormSection = memo(() => {
       errs.email = 'Please enter a valid email address.';
     }
     if (!form.phone.trim()) errs.phone = 'Phone number is required.';
+    if (form.desiredLoanAmount.trim() && !isNumericValue(form.desiredLoanAmount)) {
+      errs.desiredLoanAmount = 'Please enter a number in Desired Loan Amount.';
+    }
     if (!form.agreeToTerms)
       errs.agreeToTerms = 'You must agree to the terms and privacy policy.';
     return errs;
-  }, [form]);
+  }, [form, isNumericValue]);
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -263,7 +272,11 @@ const ApplicationFormSection = memo(() => {
                   className={formInputClass}
                 />
               </InputField>
-              <InputField label='Desired Loan Amount' id='af-loan-amt'>
+              <InputField
+                label='Desired Loan Amount'
+                id='af-loan-amt'
+                error={errors.desiredLoanAmount}
+              >
                 <input
                   id='af-loan-amt'
                   name='desiredLoanAmount'
@@ -271,6 +284,8 @@ const ApplicationFormSection = memo(() => {
                   value={form.desiredLoanAmount}
                   onChange={handleChange}
                   placeholder='Enter your desired loan amount'
+                  inputMode='decimal'
+                  aria-invalid={Boolean(errors.desiredLoanAmount)}
                   className={formInputClass}
                 />
               </InputField>

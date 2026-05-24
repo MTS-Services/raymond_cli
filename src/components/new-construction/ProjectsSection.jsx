@@ -190,6 +190,21 @@ const MODAL_TABS = [
 const INITIAL_FORM = { name: '', email: '', phone: '' };
 const PAGE_SIZE = 10;
 
+const formatArea = (value) => {
+  if (value == null || value === '' || value === '—') return '—';
+  const text = String(value).trim();
+  if (
+    text.toLowerCase().includes('sqft') ||
+    text.toLowerCase().includes('sq ft') ||
+    text.toLowerCase().includes('m²') ||
+    text.toLowerCase().includes('m2') ||
+    text.toLowerCase().includes('sqm')
+  ) {
+    return text;
+  }
+  return `${text} sqft`;
+};
+
 const normalizeConstruction = (construction) => ({
   id: construction.id,
   name: construction.title || '',
@@ -533,7 +548,9 @@ const ProjectCard = memo(({ project, onViewProject }) => {
               className='text-indigo-dark shrink-0'
               aria-hidden='true'
             />
-            <span className='text-sm text-muted-slate'>{area}</span>
+            <span className='text-sm text-muted-slate'>
+              {formatArea(area)}
+            </span>
           </div>
         </div>
         <div className='flex items-center justify-between mt-auto pt-4 border-t border-gray-100'>
