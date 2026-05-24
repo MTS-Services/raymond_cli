@@ -11,6 +11,8 @@ import { httpMethods } from "../../services/httpMethods";
 import API_ENDPOINTS from "../../services/httpEndpoint";
 
 const PAGE_SIZE = 13;
+const ALL_PRICE = "All Price";
+const ALL_TYPES = "All Types";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -63,7 +65,7 @@ const PROPERTY_TYPE_TO_API = {
 // ListingsSection -- property grid, filter sidebar/drawer
 // ---------------------------------------------------------------------------
 const ListingsSection = memo(() => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [locationSearch, setLocationSearch] = useState(
     searchParams.get("location") || "",
   );
@@ -77,9 +79,8 @@ const ListingsSection = memo(() => {
   const [heroBathrooms, setHeroBathrooms] = useState(
     searchParams.get("bathrooms") || "",
   );
-  const [selectedPriceRange, setSelectedPriceRange] = useState("All Price");
-  const [selectedPropertyType, setSelectedPropertyType] =
-    useState("All Types");
+  const [selectedPriceRange, setSelectedPriceRange] = useState(ALL_PRICE);
+  const [selectedPropertyType, setSelectedPropertyType] = useState(ALL_TYPES);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -95,6 +96,67 @@ const ListingsSection = memo(() => {
   const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
   const startItem = properties.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const endItem = properties.length === 0 ? 0 : startItem + properties.length - 1;
+
+  const clearHeroFilters = useCallback(() => {
+    setHeroMinPrice("");
+    setHeroMaxPrice("");
+    setHeroBeds("");
+    setHeroBathrooms("");
+  }, []);
+
+  const syncSearchParams = useCallback(
+    (nextState) => {
+      const params = new URLSearchParams();
+
+      if (nextState.locationSearch.trim()) {
+        params.set("location", nextState.locationSearch.trim());
+      }
+
+      if (nextState.minPrice.trim()) {
+        params.set("minPrice", nextState.minPrice.trim());
+      }
+
+      if (nextState.maxPrice.trim()) {
+        params.set("maxPrice", nextState.maxPrice.trim());
+      }
+
+      if (
+        nextState.selectedPriceRange &&
+        nextState.selectedPriceRange !== ALL_PRICE
+      ) {
+        params.set("priceRange", nextState.selectedPriceRange);
+      }
+
+      if (
+        nextState.selectedPropertyType &&
+        nextState.selectedPropertyType !== ALL_TYPES
+      ) {
+        params.set("propertyType", nextState.selectedPropertyType);
+      }
+
+      if (params.toString() !== searchParams.toString()) {
+        setSearchParams(params, { replace: true });
+      }
+    },
+    [searchParams, setSearchParams],
+  );
+
+  useEffect(() => {
+    syncSearchParams({
+      locationSearch,
+      minPrice: heroMinPrice,
+      maxPrice: heroMaxPrice,
+      selectedPriceRange,
+      selectedPropertyType,
+    });
+  }, [
+    locationSearch,
+    heroMinPrice,
+    heroMaxPrice,
+    selectedPriceRange,
+    selectedPropertyType,
+    syncSearchParams,
+  ]);
 
   useEffect(() => {
     const locationFromUrl = searchParams.get("location") || "";
@@ -122,17 +184,20 @@ const ListingsSection = memo(() => {
   const handleLocationChange = useCallback((value) => {
     setCurrentPage(1);
     setLocationSearch(value);
-  }, []);
+    clearHeroFilters();
+  }, [clearHeroFilters]);
 
   const handlePriceRangeChange = useCallback((value) => {
     setCurrentPage(1);
     setSelectedPriceRange(value);
-  }, []);
+    clearHeroFilters();
+  }, [clearHeroFilters]);
 
   const handlePropertyTypeChange = useCallback((value) => {
     setCurrentPage(1);
     setSelectedPropertyType(value);
-  }, []);
+    clearHeroFilters();
+  }, [clearHeroFilters]);
 
   useEffect(() => {
     let cancelled = false;
