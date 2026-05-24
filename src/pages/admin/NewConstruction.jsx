@@ -30,7 +30,7 @@ const MOCK_PROJECTS = [
     price: 425000,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
     description:
@@ -46,7 +46,7 @@ const MOCK_PROJECTS = [
     price: 385000,
     beds: 4,
     bathrooms: 3,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80',
     description:
@@ -62,7 +62,7 @@ const MOCK_PROJECTS = [
     price: 675000,
     beds: 2,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
     description: `Modern waterfront towers offering stunning harbor views, premium finishes, and direct access to Boston's waterfront district with private marina slips.`,
@@ -77,7 +77,7 @@ const MOCK_PROJECTS = [
     price: 525000,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
     description: `Mixed-use development near tech hub with smart home integration, co-working spaces, and retail amenities -- positioned for Austin's booming innovation economy.`,
@@ -92,7 +92,7 @@ const MOCK_PROJECTS = [
     price: 895000,
     beds: 2,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
     description: `Premium urban skyscraper in Manhattan's thriving tech corridor, offering unparalleled city views, state-of-the-art facilities, and direct subway access.`,
@@ -107,7 +107,7 @@ const MOCK_PROJECTS = [
     price: 575000,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80',
     description:
@@ -123,7 +123,7 @@ const MOCK_PROJECTS = [
     price: 445000,
     beds: 3,
     bathrooms: 3,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
     description:
@@ -139,7 +139,7 @@ const MOCK_PROJECTS = [
     price: 725000,
     beds: 2,
     bathrooms: 1,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
     description: `Industrial-chic loft conversions on the Chicago Riverwalk with open-plan living, exposed brick, and direct access to the city's premier waterfront trail.`,
@@ -154,7 +154,7 @@ const MOCK_PROJECTS = [
     price: 365000,
     beds: 4,
     bathrooms: 3,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
     description: `Charming craftsman-style community in Nashville's fastest-growing suburb, close to music venues, top-rated dining, and major employment centers.`,
@@ -169,7 +169,7 @@ const MOCK_PROJECTS = [
     price: 1250000,
     beds: 3,
     bathrooms: 3,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80',
     description:
@@ -185,7 +185,7 @@ const MOCK_PROJECTS = [
     price: 495000,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     image:
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
     description:
@@ -300,6 +300,20 @@ function formatUSD(n) {
   return '$' + n.toLocaleString('en-US');
 }
 
+function formatArea(val) {
+  if (val == null || val === '\u2014' || val === '' || val === '--') return '--';
+  const s = String(val).trim();
+  if (
+    s.toLowerCase().includes('sqft') ||
+    s.toLowerCase().includes('sq ft') ||
+    s.toLowerCase().includes('m²') ||
+    s.toLowerCase().includes('m2') ||
+    s.toLowerCase().includes('sqm')
+  )
+    return s;
+  return `${s} sqft`;
+}
+
 function getPageRange(current, total) {
   if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
   if (current <= 3) return [1, 2, 3, '...', total];
@@ -375,9 +389,9 @@ const ProjectCard = memo(({ project, onDelete, onEdit, onView }) => (
             className='text-indigo-dark shrink-0'
             aria-hidden='true'
           />
-          <span className='text-sm text-muted-slate'>
-            {project.area ?? '--'}
-          </span>
+            <span className='text-sm text-muted-slate'>
+              {formatArea(project.area ?? '--')}
+            </span>
         </div>
       </div>
 
@@ -753,7 +767,7 @@ const AddConstructionModal = memo(({ onClose, onAdd, initialData }) => {
                   type='text'
                   value={form.area}
                   onChange={handleChange}
-                  placeholder='e.g. 5x7 m²'
+                  placeholder='e.g. 5x7 sqft'
                   className='w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-400'
                 />
               </div>

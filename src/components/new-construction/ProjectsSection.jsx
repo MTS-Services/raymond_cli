@@ -39,7 +39,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj1,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       'Luxurious waterfront residences offering panoramic skyline views and world-class amenities in the heart of Miami.',
     roi: '18-24%',
@@ -57,7 +57,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj2,
     beds: 4,
     bathrooms: 3,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       "Eco-friendly sustainable community with LEED-certified construction and lush green spaces in Portland's thriving suburbs.",
     roi: '12-18%',
@@ -75,7 +75,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj3,
     beds: 2,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       'Premium harbor-facing towers in Boston offering direct waterfront access, concierge services, and luxury finishes.',
     roi: '20-28%',
@@ -93,7 +93,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj4,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       "Mixed-use development near Austin's tech hub with smart home integration and dedicated co-working spaces.",
     roi: '22-28%',
@@ -111,7 +111,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj5,
     beds: 2,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       'Premium harbor-facing towers in Boston offering direct waterfront access, concierge services, and luxury finishes.',
     roi: '20-28%',
@@ -129,7 +129,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj6,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       "Mixed-use development near Austin's tech hub with smart home integration and dedicated co-working spaces.",
     roi: '22-28%',
@@ -147,7 +147,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj7,
     beds: 2,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       'Premium harbor-facing towers in Boston offering direct waterfront access, concierge services, and luxury finishes.',
     roi: '20-28%',
@@ -165,7 +165,7 @@ const ALL_PROJECTS = [
     img: ASSETS.proj8,
     beds: 3,
     bathrooms: 2,
-    area: '5x7 m²',
+    area: '5x7 sqft',
     description:
       "Mixed-use development near Austin's tech hub with smart home integration and dedicated co-working spaces.",
     roi: '22-28%',

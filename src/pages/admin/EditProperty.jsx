@@ -34,6 +34,29 @@ const INITIAL = {
   email: "",
 };
 
+const PROPERTY_TYPE_OPTIONS = [
+  { value: "SINGLE_FAMILY_HOME", label: "SINGLE FAMILY HOME" },
+  { value: "TOWNHOMES", label: "TOWNHOMES" },
+  { value: "LAND", label: "LAND" },
+  { value: "COMMERCIAL", label: "COMMERCIAL" },
+];
+
+const LEGACY_PROPERTY_TYPE_MAP = {
+  DETACHED: "SINGLE_FAMILY_HOME",
+  SEMI_DETACHED: "SINGLE_FAMILY_HOME",
+  TERRACE: "SINGLE_FAMILY_HOME",
+  END_OF_TERRACE: "SINGLE_FAMILY_HOME",
+  FLAT: "SINGLE_FAMILY_HOME",
+  BUNGALOW: "SINGLE_FAMILY_HOME",
+  OFFICE_SPACE: "COMMERCIAL",
+  WAREHOUSE: "COMMERCIAL",
+};
+
+const normalizePropertyType = (value) =>
+  PROPERTY_TYPE_OPTIONS.some((option) => option.value === value)
+    ? value
+    : LEGACY_PROPERTY_TYPE_MAP[value] ?? "";
+
 const Field = ({ label, children }) => (
   <div className="flex flex-col gap-1.5">
     <label className="text-sm font-medium text-gray-700">{label}</label>
@@ -200,7 +223,7 @@ const EditProperty = () => {
       const res = data?.data ?? data;
       setForm({
         title: res.title ?? "",
-        type: res.propertyType ?? "",
+        type: normalizePropertyType(res.propertyType ?? ""),
         bedrooms: res.bedrooms != null ? String(res.bedrooms) : "",
         bathrooms: res.bathrooms != null ? String(res.bathrooms) : "",
         area: res.area ?? "",
@@ -258,7 +281,7 @@ const EditProperty = () => {
 
     const body = {
       title: form.title || undefined,
-      propertyType: form.type ? form.type.toUpperCase() : undefined,
+      propertyType: form.type || undefined,
       bedrooms: form.bedrooms !== "" ? Number(form.bedrooms) : undefined,
       bathrooms: form.bathrooms !== "" ? Number(form.bathrooms) : undefined,
       area: form.area || undefined,
@@ -356,8 +379,28 @@ const EditProperty = () => {
   };
 
   const handleRemoveVideo = (index) => {
-    setVideoGallery((prev) => prev.filter((_, i) => i !== index));
-    setVideoFiles((prev) => prev.filter((_, i) => i !== index));
+    const item = videoGallery[index];
+    // If this appears to be a remote/original video (not a local blob URL), call API to delete it
+    const isLocal = String(item).startsWith("blob:") || String(item).startsWith("data:");
+    const doRemove = async () => {
+      if (!isLocal && propertyId) {
+        // backend expects property update to clear video
+        const { error } = await httpMethods.put(
+          API_ENDPOINTS.PROPERTIES.BY_ID(propertyId),
+          { video: null },
+        );
+        if (error) {
+          toast.error("Failed to delete video.");
+          return;
+        }
+        toast.success("Video deleted.");
+      }
+
+      setVideoGallery((prev) => prev.filter((_, i) => i !== index));
+      setVideoFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    doRemove();
   };
 
   return (
@@ -397,15 +440,11 @@ const EditProperty = () => {
                 className="border border-gray-200 rounded-md px-3.5 py-2.5 text-base text-gray-700 bg-white focus:outline-hidden focus:border-orange-400 transition-colors cursor-pointer"
               >
                 <option value="">-- Select Property Type --</option>
-                <option value="DETACHED">Detached</option>
-                <option value="SEMI_DETACHED">Semi-Detached</option>
-                <option value="TERRACE">Terraced</option>
-                <option value="END_OF_TERRACE">End of Terrace</option>
-                <option value="FLAT">Apartment / Flat</option>
-                <option value="BUNGALOW">Bungalow</option>
-                <option value="WAREHOUSE">Warehouse</option>
-                <option value="LAND">Land</option>
-                <option value="OFFICE_SPACE">Office Space</option>
+                {PROPERTY_TYPE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </Field>
           </div>

@@ -246,7 +246,7 @@ const RegularCard = ({ item, onDelete }) => (
             aria-hidden="true"
           />
           <span className="text-slate-900 text-xs font-medium opacity-70 whitespace-nowrap">
-            {item.area}
+            {formatArea(item.area)}
           </span>
         </div>
       </div>

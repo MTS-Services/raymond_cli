@@ -494,19 +494,21 @@ const StepConfirm = ({ form, createdPropertyId }) => {
           Excellent! Your Property has been listed on our website.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
-          {createdPropertyId && (
-            <button
-              type="button"
-              onClick={() =>
-                navigate(
-                  `${ROUTES.ADMIN_LISTING_PROPERTY}/edit/${createdPropertyId}`,
-                )
+          <button
+            type="button"
+            onClick={() => {
+              if (createdPropertyId) {
+                navigate(ROUTES.PROPERTY_DETAILS.replace(":id", String(createdPropertyId)));
+              } else {
+                navigate(ROUTES.ADMIN_LISTING_PROPERTY, {
+                  state: { tab: form?.saleType || "wholesale" },
+                });
               }
-              className="bg-orange-500 text-white text-sm sm:text-base font-semibold px-5 py-2.5 rounded-md hover:bg-orange-600 transition-colors cursor-pointer"
-            >
-              View My Property Details →
-            </button>
-          )}
+            }}
+            className="bg-orange-500 text-white text-sm sm:text-base font-semibold px-5 py-2.5 rounded-md hover:bg-orange-600 transition-colors cursor-pointer"
+          >
+            View My Property Details →
+          </button>
           <button
             type="button"
             onClick={() =>

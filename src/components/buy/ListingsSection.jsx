@@ -40,7 +40,12 @@ const mapToPropertyCard = (res) => ({
 });
 
 const toNumberOrNull = (value) => {
-  const n = Number(value);
+  if (value == null) return null;
+  const s = String(value).trim();
+  if (s === "" || s === "—") return null;
+  // remove non-numeric characters (commas, dollar signs, plus signs)
+  const cleaned = s.replace(/[^0-9.-]+/g, "");
+  const n = Number(cleaned);
   return Number.isFinite(n) ? n : null;
 };
 
@@ -120,6 +125,14 @@ const ListingsSection = memo(() => {
         params.set("maxPrice", nextState.maxPrice.trim());
       }
 
+      if (nextState.beds && String(nextState.beds).trim()) {
+        params.set("beds", String(nextState.beds).trim());
+      }
+
+      if (nextState.bathrooms && String(nextState.bathrooms).trim()) {
+        params.set("bathrooms", String(nextState.bathrooms).trim());
+      }
+
       if (
         nextState.selectedPriceRange &&
         nextState.selectedPriceRange !== ALL_PRICE
@@ -146,6 +159,8 @@ const ListingsSection = memo(() => {
       locationSearch,
       minPrice: heroMinPrice,
       maxPrice: heroMaxPrice,
+      beds: heroBeds,
+      bathrooms: heroBathrooms,
       selectedPriceRange,
       selectedPropertyType,
     });
@@ -153,6 +168,8 @@ const ListingsSection = memo(() => {
     locationSearch,
     heroMinPrice,
     heroMaxPrice,
+    heroBeds,
+    heroBathrooms,
     selectedPriceRange,
     selectedPropertyType,
     syncSearchParams,
@@ -225,27 +242,27 @@ const ListingsSection = memo(() => {
         params.location = normalizedLocation;
       }
 
-      if (heroMinPrice) {
-        const minPriceValue = Number(heroMinPrice);
+      const minPriceValue = toNumberOrNull(heroMinPrice);
+      if (minPriceValue !== null) {
         params.minPrice = minPriceValue;
         params.minAskingPrice = minPriceValue;
       }
 
-      if (heroMaxPrice) {
-        const maxPriceValue = Number(heroMaxPrice);
+      const maxPriceValue = toNumberOrNull(heroMaxPrice);
+      if (maxPriceValue !== null) {
         params.maxPrice = maxPriceValue;
         params.maxAskingPrice = maxPriceValue;
       }
 
-      if (heroBeds) {
-        const bedsValue = Number(heroBeds);
+      const bedsValue = toNumberOrNull(heroBeds);
+      if (bedsValue !== null) {
         params.minBedrooms = bedsValue;
         params.bedrooms = bedsValue;
         params.beds = bedsValue;
       }
 
-      if (heroBathrooms) {
-        const bathroomsValue = Number(heroBathrooms);
+      const bathroomsValue = toNumberOrNull(heroBathrooms);
+      if (bathroomsValue !== null) {
         params.minBathrooms = bathroomsValue;
         params.bathrooms = bathroomsValue;
         params.baths = bathroomsValue;
@@ -273,9 +290,9 @@ const ListingsSection = memo(() => {
 
         const secondFilterAppliedList = hasHeroSecondFilters
           ? list.filter((item) => {
-              const askingPrice = toNumberOrNull(item?.askingPrice);
-              const bedrooms = toNumberOrNull(item?.bedrooms);
-              const bathrooms = toNumberOrNull(item?.bathrooms);
+              const askingPrice = toNumberOrNull(item?.askingPrice ?? item?.askPrice ?? item?.rawPrice);
+              const bedrooms = toNumberOrNull(item?.bedrooms ?? item?.numBedrooms);
+              const bathrooms = toNumberOrNull(item?.bathrooms ?? item?.numBathrooms);
 
               if (
                 minPriceValue !== null &&
