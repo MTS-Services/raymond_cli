@@ -1,6 +1,21 @@
 import React, { memo } from "react";
 import { BedDouble, Bath, Maximize2 } from "lucide-react";
 
+const formatArea = (value) => {
+  if (value == null || value === "" || value === "—") return "—";
+  const text = String(value).trim();
+  if (
+    text.toLowerCase().includes("sqft") ||
+    text.toLowerCase().includes("sq ft") ||
+    text.toLowerCase().includes("m²") ||
+    text.toLowerCase().includes("m2") ||
+    text.toLowerCase().includes("sqm")
+  ) {
+    return text;
+  }
+  return `${text} sqft`;
+};
+
 const PropertyFacility = memo(({ icon: Icon, label }) => (
   <div className="flex items-center gap-1.5">
     <Icon className="w-4 h-4 shrink-0 text-slate-500" aria-hidden="true" />
@@ -58,7 +73,7 @@ const PropertyCard = memo(
             className="w-px h-3.5 bg-primary-200 shrink-0 hidden xs:block"
             aria-hidden="true"
           />
-          <PropertyFacility icon={Maximize2} label={area} />
+          <PropertyFacility icon={Maximize2} label={formatArea(area)} />
         </div>
       </div>
     </article>

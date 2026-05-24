@@ -110,7 +110,7 @@ const Select = ({ children, ...props }) => (
   </select>
 );
 
-const StepBasic = ({ form, onChange }) => (
+const StepBasic = ({ form, onChange, errors }) => (
   <div className="bg-white border border-gray-200 rounded-lg p-5 sm:p-6 space-y-5">
     <h2 className="font-serif text-lg sm:text-xl font-bold text-gray-900">
       Basic Information
@@ -139,14 +139,24 @@ const StepBasic = ({ form, onChange }) => (
           placeholder="Bedroom"
           value={form.bedrooms}
           onChange={onChange("bedrooms")}
+          inputMode="numeric"
+          aria-invalid={Boolean(errors?.bedrooms)}
         />
+        {errors?.bedrooms && (
+          <p className="text-xs text-red-500">{errors.bedrooms}</p>
+        )}
       </Field>
       <Field label="Bathrooms">
         <Input
           placeholder="Bathroom"
           value={form.bathrooms}
           onChange={onChange("bathrooms")}
+          inputMode="numeric"
+          aria-invalid={Boolean(errors?.bathrooms)}
         />
+        {errors?.bathrooms && (
+          <p className="text-xs text-red-500">{errors.bathrooms}</p>
+        )}
       </Field>
       <Field label="Area">
         <Input
@@ -558,7 +568,10 @@ const AddProperty = () => {
   const [videoFiles, setVideoFiles] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [createdProperty, setCreatedProperty] = useState(null);
+  const [errors, setErrors] = useState({});
   const onChange = (key) => (e) => setForm({ ...form, [key]: e.target.value });
+
+  const isWholeNumber = (value) => /^\d+$/.test(String(value).trim());
 
   const handlePhotoUpload = (files) => {
     const fileArr = Array.from(files);
@@ -590,12 +603,29 @@ const AddProperty = () => {
 
     // Step 1 validation — title and propertyType are required before proceeding
     if (n === 2 && current === 1) {
+      const nextErrors = {};
+
       if (!form.title.trim()) {
-        toast.error("Property title is required.");
-        return;
+        nextErrors.title = "Property title is required.";
       }
       if (!form.type) {
-        toast.error("Please select a Property Type.");
+        nextErrors.type = "Please select a Property Type.";
+      }
+      if (!form.bedrooms.trim()) {
+        nextErrors.bedrooms = "Please enter a number in Bedrooms.";
+      } else if (!isWholeNumber(form.bedrooms)) {
+        nextErrors.bedrooms = "Please enter a number in Bedrooms.";
+      }
+      if (!form.bathrooms.trim()) {
+        nextErrors.bathrooms = "Please enter a number in Bathrooms.";
+      } else if (!isWholeNumber(form.bathrooms)) {
+        nextErrors.bathrooms = "Please enter a number in Bathrooms.";
+      }
+
+      if (Object.keys(nextErrors).length > 0) {
+        setErrors(nextErrors);
+        const firstError = nextErrors.title || nextErrors.type || nextErrors.bedrooms || nextErrors.bathrooms;
+        if (firstError) toast.error(firstError);
         return;
       }
     }
@@ -677,6 +707,7 @@ const AddProperty = () => {
       }
 
       setCreatedProperty(data.data);
+      setErrors({});
     }
 
     navigate(`${ROUTES.ADMIN_ADD_PROPERTY}/${n}`);
@@ -713,7 +744,7 @@ const AddProperty = () => {
 
       {showProgress && <ProgressBar current={current} />}
 
-      {current === 1 && <StepBasic form={form} onChange={onChange} />}
+      {current === 1 && <StepBasic form={form} onChange={onChange} errors={errors} />}
       {current === 2 && <StepLocation form={form} onChange={onChange} />}
       {current === 3 && (
         <StepImages
