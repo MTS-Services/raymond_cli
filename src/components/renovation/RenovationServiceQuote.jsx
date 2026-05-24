@@ -16,15 +16,17 @@ const INITIAL_FORM = {
 };
 
 const PROPERTY_TYPE_OPTIONS = [
-  'DETACHED',
-  'SEMI_DETACHED',
-  'TERRACE',
-  'FLAT',
-  'BUNGALOW',
-  'OFFICE_SPACE',
+  'SINGLE_FAMILY_HOME',
+  'TOWNHOMES',
   'LAND',
-  'WAREHOUSE',
+  'COMMERCIAL',
 ];
+
+const humanize = (s) =>
+  String(s)
+    .split(/[_\s]+/) // split on underscore or spaces
+    .map((w) => (w.length > 0 ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ''))
+    .join(' ');
 
 const RENOVATION_TYPE_OPTIONS = [
   'KITCHEN_RENOVATION',
@@ -229,7 +231,7 @@ const RenovationServiceQuote = memo(() => {
               </option>
               {PROPERTY_TYPE_OPTIONS.map((opt) => (
                 <option key={opt} value={opt} className='text-black' style={{ color: '#111827' }}>
-                  {opt.replace(/_/g, ' ')}
+                  {humanize(opt)}
                 </option>
               ))}
             </select>
