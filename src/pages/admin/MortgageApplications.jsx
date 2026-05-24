@@ -855,6 +855,20 @@ const DetailModal = memo(({ application, onClose }) => {
   if (!application) return null;
   const app = application;
 
+    const hasMortgageData =
+      app.purchaseAmount != null ||
+      app.downPayment != null ||
+      app.mortgageRate != null ||
+      app.mortgageTerm != null ||
+      app.mortgageEstMonthly != null;
+
+    const hasRefinanceData =
+      app.refinanceLoanAmount != null ||
+      app.estimatedHomeValue != null ||
+      app.refinanceRate != null ||
+      app.refinanceTerm != null ||
+      app.refinanceEstMonthly != null;
+
   return (
     <div
       className='fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease-out]'
@@ -948,10 +962,10 @@ const DetailModal = memo(({ application, onClose }) => {
           </div>
 
           {/* 4. Mortgage Calculator */}
-          <MortgageCalcSection app={app} />
+          {hasMortgageData && <MortgageCalcSection app={app} />}
 
           {/* 5. Refinance Calculator */}
-          <RefinanceCalcSection app={app} />
+          {hasRefinanceData && <RefinanceCalcSection app={app} />}
 
           {/* 6. Customer Message */}
           {app.customerMessage && (
