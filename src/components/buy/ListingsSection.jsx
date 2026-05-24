@@ -176,6 +176,17 @@ const ListingsSection = memo(() => {
   ]);
 
   useEffect(() => {
+    if (!drawerOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [drawerOpen]);
+
+  useEffect(() => {
     const locationFromUrl = searchParams.get("location") || "";
     const minPriceFromUrl = searchParams.get("minPrice") || "";
     const maxPriceFromUrl = searchParams.get("maxPrice") || "";

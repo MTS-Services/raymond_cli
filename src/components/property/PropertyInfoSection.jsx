@@ -45,7 +45,7 @@ const INITIAL_FORM = {
 const FeatureItem = memo(({ icon, value, label }) => (
   <div className="min-w-0 bg-[rgba(0,31,61,0.05)] border border-[rgba(0,31,61,0.05)] rounded-xl flex flex-col items-center justify-center gap-1.5 py-4 px-3">
     {icon}
-    <span className="font-inter font-bold text-blue-950 text-base sm:text-lg leading-6 text-center wrap-break-word">
+    <span className="font-inter font-bold text-blue-950 text-xs sm:text-lg leading-6 text-center wrap-break-word">
       {value}
     </span>
     <span className="font-inter font-medium text-xs uppercase tracking-wide text-[rgba(0,31,61,0.6)]">
@@ -297,7 +297,7 @@ const PropertyInfoSection = memo(({ property, isOffer = false }) => {
     <>
       <section className="pt-4 pb-8 lg:pt-5 lg:pb-10 bg-white">
         <div className="max-w-384 mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row gap-10 xl:gap-12 items-start">
+          <div className="flex flex-col lg:flex-row gap-10 xl:gap-12">
             {/* Left column -- property info */}
             <div className="flex-1 min-w-0 flex flex-col gap-6">
               <div className="flex flex-col gap-3">

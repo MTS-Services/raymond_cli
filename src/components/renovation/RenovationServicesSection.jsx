@@ -35,7 +35,7 @@ const SERVICES = [
 const ServiceCard = memo(({ service }) => {
   const { Icon, title, description } = service;
   return (
-    <div className='bg-surface-white border border-[rgba(189,201,204,0.9)] rounded-2xl flex flex-col gap-2 p-8'>
+    <div className='bg-surface-white border border-gray-200/70 rounded-2xl flex flex-col gap-2 p-8'>
       <Icon size={24} className='text-gray-700 shrink-0' aria-hidden='true' />
       <h3 className='font-playfair font-semibold text-ink-soft text-xl sm:text-2xl leading-snug mt-2'>
         {title}
