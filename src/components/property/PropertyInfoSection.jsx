@@ -445,7 +445,7 @@ const PropertyInfoSection = memo(({ property, isOffer = false }) => {
                             />
                           </button>
                           <span className="font-inter font-medium text-white text-base drop-shadow-sm">
-                            Watch Virtual Tour
+                            Video not available
                           </span>
                         </div>
                       </>
