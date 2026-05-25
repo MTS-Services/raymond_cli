@@ -14,7 +14,7 @@ function App() {
         <Toaster
           position={TOAST_CONFIG.POSITION}
           toastOptions={{ duration: TOAST_CONFIG.DURATION }}
-        />
+        /> 
       </ErrorBoundary>
     </Provider>
   );

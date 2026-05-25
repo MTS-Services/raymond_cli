@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Table of Contents
+## 📋 Table of Contents 
 
 1. [Executive Summary](#executive-summary)
 2. [Technology Stack](#technology-stack)

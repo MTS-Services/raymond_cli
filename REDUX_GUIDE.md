@@ -25,7 +25,7 @@ Redux is a **Global State Management** library.
 - There is no props drilling problem
 - Simple TODO app or blog
 
----
+--- 
 
 ## Redux Structure
 

@@ -30,7 +30,7 @@ export const API_ENDPOINTS = {
     BY_ID: (inquiryId) => `/api/v1/inquiries/${inquiryId}`,
     STATUS: (inquiryId) => `/api/v1/inquiries/${inquiryId}/status`,
     DELETE: (inquiryId) => `/api/v1/inquiries/${inquiryId}`,
-  },
+  }, 
 
   FEE_BUILDER: {
     LIST: "/api/v1/fee-builder",

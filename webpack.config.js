@@ -26,7 +26,7 @@ module.exports = (env, argv) => {
   };
 
   const devPort = parseInt(rawEnv.REACT_APP_DEV_PORT || '5173', 10);
-
+ 
   return {
     entry: './src/index.jsx',
     output: {

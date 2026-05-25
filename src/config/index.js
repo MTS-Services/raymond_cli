@@ -11,7 +11,7 @@ export const ROUTES = {
   RENOVATION_DETAILS: '/renovation-construction/:id',
   NEW_CONSTRUCTION: '/new-construction',
   RENOVATION_SERVICE: '/renovation-service',
-  MORTGAGE: '/mortgage',
+  MORTGAGE: '/mortgage', 
   WHOLESALE: '/wholesale',
   PORTFOLIO: '/portfolio',
   CASE_STUDY_DETAIL: '/portfolio/case-study/:id',

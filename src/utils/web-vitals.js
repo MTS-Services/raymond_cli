@@ -16,7 +16,7 @@ const getConnectionSpeed = () => {
 
 const sendToAnalytics = (metric) => {
   const body = JSON.stringify({
-    id: metric.id,
+    id: metric.id, 
     name: metric.name,
     value: metric.value,
     rating: metric.rating,

@@ -5,7 +5,7 @@ import {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
-  clearCart,
+  clearCart, 
   selectCartItems,
   selectTotalItems,
   selectTotalPrice,

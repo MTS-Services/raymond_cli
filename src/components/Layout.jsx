@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { to: ROUTES.ABOUT, label: 'About' },
   { to: ROUTES.SERVICES, label: 'Services' },
   { to: ROUTES.CONTACT, label: 'Contact' },
-];
+]; 
 
 const navLinkClass = ({ isActive }) =>
   isActive

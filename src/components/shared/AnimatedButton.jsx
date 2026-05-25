@@ -12,7 +12,7 @@ const AnimatedButton = memo(
     children,
     onClick,
     ...rest
-  }) => {
+  }) => { 
     const ref = useGsapButton();
     const isHashLink = typeof href === 'string' && href.startsWith('#');
 

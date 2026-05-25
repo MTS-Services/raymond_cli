@@ -10,7 +10,7 @@ import {
 const DEMO_USER = {
   user: { id: 1, name: 'John Doe', email: 'john@example.com', role: 'admin' },
   token: 'jwt-token-here-12345',
-};
+}; 
 
 const LoginExample = memo(() => {
   const dispatch = useDispatch();

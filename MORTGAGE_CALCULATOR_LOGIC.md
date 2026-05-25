@@ -15,7 +15,7 @@ $$\text{PMT} = \frac{P \cdot r \cdot (1+r)^n}{(1+r)^n - 1}$$
 | `r = 0` (0% interest)      | `PMT = principal / n` |
 | `principal ≤ 0` or `n = 0` | Returns `0`           |
 
----
+--- 
 
 ## 2. Mortgage Calculator (Purchase)
 

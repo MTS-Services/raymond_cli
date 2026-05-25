@@ -10,7 +10,7 @@ const ThemeToggle = () => {
   const handleToggle = () => {
     dispatch(toggleTheme());
   };
-
+ 
   return (
     <button
       onClick={handleToggle}

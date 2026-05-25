@@ -16,7 +16,7 @@ const applyPrimaryColor = (color) => {
 };
 
 const listener = createListenerMiddleware();
-
+ 
 // Auth persistence
 listener.startListening({
   actionCreator: loginSuccess,

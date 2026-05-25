@@ -6,7 +6,7 @@ function reportError(error, errorInfo) {
     return;
   }
 
-  try {
+  try { 
     const payload = JSON.stringify({
       message: error?.message,
       stack: error?.stack,

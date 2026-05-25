@@ -19,7 +19,7 @@ export const generateMetadata = ({
     description,
     keywords: keywords.join(', '),
     canonical: fullUrl,
-    openGraph: {
+    openGraph: { 
       title,
       description,
       url: fullUrl,

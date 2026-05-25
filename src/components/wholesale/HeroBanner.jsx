@@ -8,7 +8,7 @@ import { ROUTES } from '../../config';
 const ASSETS = {
   heroBg: '/Wholesale/heroBg.webp',
 };
-
+ 
 const HeroBanner = memo(() => (
   <section
     className='relative w-full overflow-hidden'

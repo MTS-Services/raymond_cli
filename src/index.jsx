@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-);
+); 
 
 if (process.env.NODE_ENV !== 'production') {
   reportWebVitals();

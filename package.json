@@ -13,7 +13,7 @@
     "webpack",
     "tailwind",
     "react-router"
-  ],
+  ], 
   "author": "",
   "license": "ISC",
   "dependencies": {

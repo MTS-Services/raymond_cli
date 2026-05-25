@@ -21,7 +21,7 @@ const HeroSection = memo(() => (
           services.
         </p>
       </div>
-    </div>
+    </div> 
   </section>
 ));
 
