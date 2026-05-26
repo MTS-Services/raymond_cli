@@ -2,12 +2,11 @@
 
 A production-ready React single-page application for a real-estate portal featuring property listings, mortgage calculators, consultation booking, user authentication, chat, and admin/user areas.
 
-**Live Demo:** Replace with your deployed URL: https://your-live-site.example
+**Live:** https://skyridgegroup.com
 
 ---
 
 **Quick Links**
-- **Live Site:** https://your-live-site.example (replace with real URL)
 - **Architecture & Guidelines:** [frontend-architecture.md](frontend-architecture.md)
 - **Redux Guide:** [REDUX_GUIDE.md](REDUX_GUIDE.md)
 
