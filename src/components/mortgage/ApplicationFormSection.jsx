@@ -54,6 +54,13 @@ const ApplicationFormSection = memo(() => {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
+  const sanitizeDecimalInput = useCallback((value) => {
+    const text = String(value);
+    const [wholePart, ...decimalParts] = text.replace(/[^\d.]/g, '').split('.');
+    if (decimalParts.length === 0) return wholePart;
+    return `${wholePart}.${decimalParts.join('').replace(/\./g, '')}`;
+  }, []);
+
   const getCalculatorPayload = useCallback(() => {
     const drafts = getAllMortgageApplicationDrafts();
     const activeDraft = getMortgageApplicationDraft();
@@ -67,12 +74,19 @@ const ApplicationFormSection = memo(() => {
 
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
+    const nextValue =
+      name === 'phone' || name === 'annualIncome'
+        ? value.replace(/\D/g, '')
+        : name === 'desiredLoanAmount'
+          ? sanitizeDecimalInput(value)
+          : value;
+
     setForm((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : nextValue,
     }));
     setErrors((prev) => ({ ...prev, [name]: '' }));
-  }, []);
+  }, [sanitizeDecimalInput]);
 
   const isNumericValue = useCallback((value) => {
     const text = String(value).trim();
@@ -89,7 +103,12 @@ const ApplicationFormSection = memo(() => {
       errs.email = 'Please enter a valid email address.';
     }
     if (!form.phone.trim()) errs.phone = 'Phone number is required.';
-    if (form.desiredLoanAmount.trim() && !isNumericValue(form.desiredLoanAmount)) {
+    if (form.annualIncome.trim() && !isNumericValue(form.annualIncome)) {
+      errs.annualIncome = 'Please enter a valid annual income.';
+    }
+    if (!form.desiredLoanAmount.trim()) {
+      errs.desiredLoanAmount = 'Desired Loan Amount is required.';
+    } else if (!isNumericValue(form.desiredLoanAmount)) {
       errs.desiredLoanAmount = 'Please enter a number in Desired Loan Amount.';
     }
     if (!form.agreeToTerms)
@@ -252,10 +271,13 @@ const ApplicationFormSection = memo(() => {
                   id='af-income'
                   name='annualIncome'
                   type='text'
+                  inputMode='numeric'
+                  pattern='[0-9]*'
                   value={form.annualIncome}
                   onChange={handleChange}
                   placeholder='Enter your annual income'
                   className={formInputClass}
+                  aria-invalid={Boolean(errors.annualIncome)}
                 />
               </InputField>
             </div>
@@ -274,6 +296,7 @@ const ApplicationFormSection = memo(() => {
               </InputField>
               <InputField
                 label='Desired Loan Amount'
+                required
                 id='af-loan-amt'
                 error={errors.desiredLoanAmount}
               >
@@ -281,10 +304,12 @@ const ApplicationFormSection = memo(() => {
                   id='af-loan-amt'
                   name='desiredLoanAmount'
                   type='text'
+                
                   value={form.desiredLoanAmount}
                   onChange={handleChange}
                   placeholder='Enter your desired loan amount'
                   inputMode='decimal'
+                  pattern='[0-9]*[.]?[0-9]*'
                   aria-invalid={Boolean(errors.desiredLoanAmount)}
                   className={formInputClass}
                 />

@@ -251,7 +251,10 @@ const ProjectModal = memo(({ project, onClose }) => {
 
   const handleFieldChange = useCallback((e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === 'phone' ? value.replace(/\D/g, '') : value,
+    }));
   }, []);
 
   const handleBookSubmit = useCallback(
@@ -472,7 +475,9 @@ const ProjectModal = memo(({ project, onClose }) => {
             <input
               id='book-phone'
               name='phone'
-              type='tel'
+              type='text'
+              inputMode='numeric'
+              pattern='[0-9]*'
               value={form.phone}
               onChange={handleFieldChange}
               placeholder='Enter your phone number'
