@@ -1,8 +1,7 @@
 import { io } from "socket.io-client";
 
 const SOCKET_URL =
-  process.env.REACT_APP_SOCKET_URL ||
-  "https://backend1raymond.maktechgroup.tech";
+  process.env.REACT_APP_API_BASE_URL;
 
 export const socket = io(SOCKET_URL, {
   autoConnect: false, // connect manually in useSocket after auth token is available
