@@ -12,8 +12,8 @@ import { ROUTES } from "../../config";
 import { httpMethods } from "../../services/httpMethods";
 import API_ENDPOINTS from "../../services/httpEndpoint";
 
-const HERO_BG = "/hero.png";
-const HERO_BG_MOBILE = "/homeBgPhone.png";
+const HERO_BG = "/hero.webp";
+const HERO_BG_MOBILE = "/homeBgPhone.webp";
 
 const FALLBACK_MIN_PRICES = [
   "$50,000",
