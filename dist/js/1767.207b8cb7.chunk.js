@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_webpack_tailwind_app=self.webpackChunkreact_webpack_tailwind_app||[]).push([[1767],{1767(a,e,t){t.r(e),t.d(e,{default:()=>r}),t(6540);var c=t(5570),p=t(9521),n=t(4848);const r=function(){return(0,n.jsx)(c.C5,{to:p.bw.ADMIN_LISTING_PROPERTY,replace:!0})}}}]);
