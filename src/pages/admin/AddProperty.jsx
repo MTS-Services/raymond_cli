@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { UploadCloud, Trash2, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { ROUTES } from "../../config";
@@ -538,6 +538,7 @@ const StepConfirm = ({ form, createdPropertyId }) => {
 
 const AddProperty = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { step } = useParams();
   const current = Math.min(Math.max(parseInt(step || "1", 10) || 1, 1), 5);
 
@@ -552,7 +553,7 @@ const AddProperty = () => {
     city: "",
     state: "",
     zip: "",
-    saleType: "wholesale",
+    saleType: location.state?.tab === "regular" ? "regular" : "wholesale",
     listingPrice: "",
     purchase: "",
     renovation: "",
