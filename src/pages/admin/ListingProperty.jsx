@@ -390,6 +390,7 @@ const ListingProperty = () => {
         </div>
         <Link
           to={`${ROUTES.ADMIN_ADD_PROPERTY}/1`}
+          state={{ tab }}
           className="bg-orange-500 text-white text-sm sm:text-base font-semibold px-5 py-2.5 rounded-md hover:bg-orange-600 transition-colors inline-flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
         >
           <Plus size={16} /> Add New Property
